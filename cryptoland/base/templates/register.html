@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> CryptoLand Signup </title> 
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <link rel="stylesheet" href="{% static 'css/messages.css'%}">
+  </head>
+<body>
+  <div class="wrapper">
+    <h2>Registration</h2>
+    {% if messages %}
+    <div id="message-container">
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% elif message.tags == 'error' %}
+                <div class="alert alert-error">{{ message }}</div>
+            {% elif message.tags == 'info' %}
+                <div class="alert alert-info">{{ message }}</div>
+            {% elif message.tags == 'warning' %}
+                <div class="alert alert-warning">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+       {% endif %}
+
+       <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messages = document.querySelectorAll('#message-container .alert');
+            if (messages.length > 0) {
+                setTimeout(function() {
+                    messages.forEach(function(message) {
+                        message.style.transition = 'opacity 0.5s ease';
+                        message.style.opacity = '0';
+                        setTimeout(function() {
+                            message.remove();
+                        }, 500);
+                    });
+                }, 3000);
+            }
+        });
+    </script>
+
+    <form action="" method="post">
+      {% csrf_token %}
+      <div class="input-box">
+        <input type="text" placeholder="Enter your Username" name="username" required>
+      </div>
+      <div class="input-box">
+        <input type="text" placeholder="Enter your email" name="email" required>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Create password" name="password1" required>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Confirm password" name="password2" required>
+      </div>
+      <div class="policy">
+        <input type="checkbox" id="terms">
+        <h3>I accept all terms & condition</h3>
+      </div>
+      <div class="input-box button">
+        <input type="Submit" value="Register Now" id="register-btn" disabled>
+      </div>
+      <div class="text">
+        <!-- Additional content here -->
+      </div>
+      
+      <script>
+          // Get references to the checkbox and the register button
+          const termsCheckbox = document.getElementById('terms');
+          const registerButton = document.getElementById('register-btn');
+      
+          // Add an event listener to the checkbox
+          termsCheckbox.addEventListener('change', function() {
+              // Enable or disable the register button based on the checkbox status
+              registerButton.disabled = !termsCheckbox.checked;
+          });        
+      </script>
+      
+      <h3>Already have an account? <a href="{% url 'login'%}">Login now</a></h3>
+    </div>
+    </form>
+  </div>
+</body>
+</html>

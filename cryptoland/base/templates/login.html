@@ -1,0 +1,89 @@
+
+{% load static %}
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <title>Login CryptoLand </title>
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+      <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.svg' %}" />
+      <link rel="stylesheet" href="{% static 'css/messages.css'%}">
+     
+
+      <!-- <script>
+         function showAlert(message, type) {
+             alert(`${type}: ${message}`);
+         }
+     </script> -->
+   </head>
+   <body>
+      <div class="wrapper">
+         <div class="title">
+            Login Form
+         </div>
+         {% if messages %}
+         <div id="message-container">
+             {% for message in messages %}
+                 {% if message.tags == 'success' %}
+                     <div class="alert alert-success">{{ message }}</div>
+                 {% elif message.tags == 'error' %}
+                     <div class="alert alert-error">{{ message }}</div>
+                 {% elif message.tags == 'info' %}
+                     <div class="alert alert-info">{{ message }}</div>
+                 {% elif message.tags == 'warning' %}
+                     <div class="alert alert-warning">{{ message }}</div>
+                 {% endif %}
+             {% endfor %}
+         </div>
+            {% endif %}
+
+            <script>
+               // Include the JavaScript from above
+               document.addEventListener('DOMContentLoaded', function() {
+                   const messages = document.querySelectorAll('#message-container .alert');
+                   if (messages.length > 0) {
+                       setTimeout(function() {
+                           messages.forEach(function(message) {
+                               message.style.transition = 'opacity 0.5s ease';
+                               message.style.opacity = '0';
+                               setTimeout(function() {
+                                   message.remove();
+                               }, 500);
+                           });
+                       }, 3000);
+                   }
+               });
+           </script>
+
+
+
+         <form action="" method="post">
+            {% csrf_token %}
+            <div class="field">
+               <input type="text" name="username" id="username" required>
+               <label>Username</label>
+            </div>
+            <div class="field">
+               <input type="password" name="password" id="password" required>
+               <label>Password</label>
+            </div>
+            <div class="content">
+               <div class="checkbox">
+                  <input type="checkbox" id="remember-me">
+                  <label for="remember-me">Remember me</label>
+               </div>
+               <div class="pass-link">
+                  <a href="#">Forgot password?</a>
+               </div>
+            </div>
+            <div class="field">
+               <input type="submit" value="Login">
+            </div>
+            <div class="signup-link">
+               Not a member? <a href="{% url 'register'%}">Signup now</a>
+            </div>
+         </form>
+      </div>
+   </body>
+</html>

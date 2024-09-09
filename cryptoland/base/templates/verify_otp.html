@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <link rel="stylesheet" href="{% static 'css/messages.css'%}">
+    
+
+
+</head>
+<body>
+    {% if messages %}
+    <div id="message-container">
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% elif message.tags == 'error' %}
+                <div class="alert alert-error">{{ message }}</div>
+            {% elif message.tags == 'info' %}
+                <div class="alert alert-info">{{ message }}</div>
+            {% elif message.tags == 'warning' %}
+                <div class="alert alert-warning">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const messages = document.querySelectorAll('#message-container .alert');
+                if (messages.length > 0) {
+                    setTimeout(function() {
+                        messages.forEach(function(message) {
+                            message.style.transition = 'opacity 0.5s ease';
+                            message.style.opacity = '0';
+                            setTimeout(function() {
+                                message.remove();
+                            }, 500);
+                        });
+                    }, 3000);
+                }
+            });
+        </script>
+    <div class="wrapper">
+        <div class="title">
+            <h4>Verify Your Email</h4>
+        </div>
+        
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="field">
+                <input type="text" placeholder="Enter the OTP" name="otp" required>
+            </div>
+            <div class="input-box field button">
+                <input type="submit" value="Verify">
+            </div>
+            <a href="{% url 'verify_otp' user_id=user_id %}?resend=true" class="btn btn-success">
+                Resend OTP
+            </a>
+
+        </form>
+    </div>
+</body>
+</html>
